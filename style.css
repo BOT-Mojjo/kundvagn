@@ -1,0 +1,11 @@
+.store {
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.kundvagn {
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
