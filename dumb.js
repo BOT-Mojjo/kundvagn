@@ -76,6 +76,7 @@ for (let index in pruductList) {
 
     store.append(listing);
 }
+
 let countt = 0;
 let vagn = [];
 function Buy(product, index) {
@@ -101,6 +102,10 @@ function Buy(product, index) {
     prislapp.innerText = product.pris + " kr";
     namnlapp.innerText = product.namne;
 
+    listing.addEventListener("click", (event) => {
+        RemoveItem(index, event);
+    });
+
     listing.append(namnlapp);
     listing.append(prislapp);
     listing.append(count);
@@ -109,4 +114,22 @@ function Buy(product, index) {
     kudngvang.append(listing);
     kudngvang.append();
 
+}
+
+function RemoveItem(index, event) {
+
+    let prod = vagn.indexOf(pruductList[index].namne)
+    let list = document.querySelector(".listing" + prod)
+    pruductList[index].count--;
+    list.innerHTML = pruductList[index].count + " count";
+    if (pruductList[index].count < 1) {
+        let list = document.querySelector(".listing" + prod)
+        list = list.parentElement;
+        list.innerHTML = ``;
+        list.remove(list);
+        vagn[vagn.indexOf(pruductList[index].namne)] = ``;
+        console.table(vagn);
+    }
+
+    return;
 }
