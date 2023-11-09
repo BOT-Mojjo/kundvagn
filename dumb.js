@@ -69,7 +69,6 @@ for (let index in pruductList) {
         Buy(pruductList[index], index)
     });
 
-
     listing.append(namnlapp);
     listing.append(prislapp);
     listing.append(button);
@@ -79,12 +78,27 @@ for (let index in pruductList) {
 
 let countt = 0;
 let vagn = [];
+let sumGlobal = 0;
+
 function Buy(product, index) {
+    if (vagn.length === 0) {
+        let kudngvang2 = document.querySelector(".kundvagn");
+
+        let prisSummering = document.createElement("h2");
+        prisSummering.classList.add("sum");
+        prisSummering.innerHTML = "plase holder";
+
+        kudngvang2.append(prisSummering);
+        kudngvang2.append();
+    }
+
+
     if (vagn.includes(product.namne)) {
         let prod = vagn.indexOf(product.namne)
         let list = document.querySelector(".listing" + prod)
         pruductList[index].count++;
         list.innerHTML = pruductList[index].count + " count";
+        SumAdd(index);
         return;
     }
     vagn.push(product.namne);
@@ -99,6 +113,7 @@ function Buy(product, index) {
     count.innerHTML = 1 + " count";
     count.classList.add("listing" + countt);
     countt++;
+    pruductList[index].count = 1;
     prislapp.innerText = product.pris + " kr";
     namnlapp.innerText = product.namne;
 
@@ -106,14 +121,13 @@ function Buy(product, index) {
         RemoveItem(index, event);
     });
 
+    SumAdd(index);
+
     listing.append(namnlapp);
     listing.append(prislapp);
     listing.append(count);
-
-
     kudngvang.append(listing);
     kudngvang.append();
-
 }
 
 function RemoveItem(index, event) {
@@ -122,6 +136,8 @@ function RemoveItem(index, event) {
     let list = document.querySelector(".listing" + prod)
     pruductList[index].count--;
     list.innerHTML = pruductList[index].count + " count";
+    SumRemove(index);
+
     if (pruductList[index].count < 1) {
         let list = document.querySelector(".listing" + prod)
         list = list.parentElement;
@@ -129,7 +145,21 @@ function RemoveItem(index, event) {
         list.remove(list);
         vagn[vagn.indexOf(pruductList[index].namne)] = ``;
         console.table(vagn);
+        pruductList[index].count = 0;
     }
-
     return;
+}
+
+//sum add
+function SumAdd(index) {
+    let sum = document.querySelector(".sum");
+    sumGlobal += parseInt(pruductList[index].pris);
+    sum.innerHTML = "Total " + sumGlobal + " kr";
+}
+
+//sum remove
+function SumRemove(index) {
+    let sum = document.querySelector(".sum");
+    sumGlobal -= parseInt(pruductList[index].pris);
+    sum.innerHTML = "Total " + sumGlobal + " kr";
 }
